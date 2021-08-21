@@ -1,35 +1,48 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 import { Card, Paragraph, TouchableRipple } from 'react-native-paper';
+import {
+  parseISO, 
+  format
+} from 'date-fns'; 
 
-// import { Container } from './styles';
+import { ptBR } from 'date-fns/locale';
+
 
 export interface RegistryCardProps {
   child_name: string; 
   title: string; 
-  date: string;
+  date_created: string;
+  date_updated: string; 
+  id: string;
   content: string;
-  navigation: (data:RegistryCardData ) => void; 
+  onPress: () => void;
 }
 
 export interface RegistryCardData {
   child_name: string; 
   title: string; 
-  date: string;
+  date_created: string;
+  date_updated: string; 
+  id: string;
   content: string;
 }
 
 
-const RegistryCard: React.FC<RegistryCardProps> = ({child_name, title, date, content, navigation}) => {
-  
-  
+const RegistryCard: React.FC<RegistryCardProps> = 
+({child_name, title, date_created, content, date_updated, id, onPress}) => {
+
 
   return (
-  
-      <Card onPress={() => navigation({child_name, title, date, content})} style={{marginBottom:2}}>
-        <Card.Title title={title} subtitle={`${child_name} | ${date}`}  />
+      <Card
+        onPress={onPress}
+        style={{marginBottom:2}}>
+        <Card.Title 
+          title={title} 
+          subtitle={`${child_name} | ${format(parseISO(date_created), "dd 'de' MMMM 'de' yyyy", {locale: ptBR})}`} 
+        />
         <Card.Content>
-          <Paragraph>{content}</Paragraph>
+          <Text numberOfLines={2} >{content}</Text>
         </Card.Content>
       </Card>
 
